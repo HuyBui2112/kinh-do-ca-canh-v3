@@ -1,0 +1,87 @@
+# Backend
+
+# 1. Node modules
+/backend/node_modules/
+
+# 2. Output build
+/backend/dist/
+/backend/build/
+
+# 3.TypeScript cache
+/backend/*.tsbuildinfo
+
+# 4. Environment variables
+/backend/.env
+/backend/.env.local
+/backend/.env.development.local
+/backend/.env.test.local
+/backend/.env.production.local
+
+# 5. Logs
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
+/backend/pnpm-debug.log*
+
+# 6. OS-specific
+/backend/.DS_Store
+/backend/Thumbs.db
+
+# 7. Editor configs
+/backend/.vscode/
+/backend/.idea/
+
+# 8. Optional: lock files (tùy bạn dùng package manager nào)
+/backend/package-lock.json
+/backend/yarn.lock
+/backend/pnpm-lock.yaml
+
+# 9. Cursor AI Rules
+/backend/.cursor 
+
+# Frontend
+
+# 1. Node modules
+/frontend/node_modules/
+
+# 2. Build output
+/frontend/.next/
+/frontend/out/
+/frontend/dist/
+
+# 3. Typescript build info
+/frontend/*.tsbuildinfo
+
+# 4. Environment variables
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+# 5. Log files
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/pnpm-debug.log*
+
+# 6. OS generated
+/frontend/.DS_Store
+/frontend/Thumbs.db
+
+# 7. IDE configs
+/frontend/.vscode/
+/frontend/.idea/
+/frontend/*.suo
+/frontend/*.ntvs*
+/frontend/*.njsproj
+/frontend/*.sln
+
+# Optional: Lock files (tùy bạn dùng npm, yarn, hay pnpm)
+# Nếu làm việc nhóm thì nên commit lock file để đồng bộ version
+# => Nếu không chắc, bạn có thể giữ nguyên, đừng ignore
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# 8. Cursor AI Rules
+/frontend/.cursor
