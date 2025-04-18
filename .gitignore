@@ -85,3 +85,6 @@
 
 # 8. Cursor AI Rules
 /frontend/.cursor
+
+# 9. Vercel
+/frontend/.vercel
