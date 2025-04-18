@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { connectDB } from './configs/database';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler';
+import userRoutes from './routes/userRoutes';
 
 // Cấu hình dotenv để đọc file .env
 dotenv.config();
@@ -26,6 +27,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Thêm các route khác ở đây...
+app.use('/api/users', userRoutes); // Route người dùng
 
 // Error handling middleware
 app.use(notFoundHandler); // Xử lý route không tồn tại
