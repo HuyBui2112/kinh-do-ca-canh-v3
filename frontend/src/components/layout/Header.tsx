@@ -1,246 +1,113 @@
 "use client";
 
 import Link from "next/link";
-// import Image from 'next/image';
+import Image from "next/image";
 import { useState } from "react";
-import { Search, ShoppingCart, Menu, X, User } from "lucide-react";
+import { Phone, Mail, Search, ShoppingCart, Menu, X, User } from "lucide-react";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
+  const navigation = [
+    {
+      id: 1,
+      title: "Danh mục sản phẩm",
+      href: "#",
+      sub: [
+        { name: "Cá cảnh", slug: "ca-canh" },
+        { name: "Thức ăn cho cá", slug: "thuc-an" },
+        { name: "Cá cảnh", slug: "thuoc" },
+        { name: "Cá cảnh", slug: "be-ca" },
+        { name: "Cá cảnh", slug: "thuc-vat-thuy-sinh" },
+        { name: "Cá cảnh", slug: "thiet-bi" },
+        { name: "Cá cảnh", slug: "phu-kien" },
+        { name: "Cá cảnh", slug: "phan-cot-nen" },
+      ],
+    },
+  ];
   return (
-    <header className="bg-primary-600 text-white sticky top-0 z-50 shadow-md">
-      {/* Top bar - desktop */}
-      <div className="hidden md:block bg-primary-700 py-1">
-        <div className="container mx-auto px-4 flex justify-between text-sm">
-          <div className="flex items-center space-x-4">
-            <span>Hotline: 0123.456.789</span>
+    <header className="min-w-[320px] bg-white shadow-sm sticky top-0 z-50">
+      {/* Top Bar */}
+      <div className="hidden lg:block bg-sky-600 text-sm text-sky-100 py-1">
+        <div className="container flex items-center justify-between">
+          {/* Contact Info */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Phone size={14} />
+              <span>0987 654 321</span>
+            </div>
             <span>|</span>
-            <span>Email: contact@kinhdocacanh.com</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Link
-              href="/dang-nhap"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Đăng nhập
-            </Link>
-            <span>|</span>
-            <Link
-              href="/dang-ky"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Đăng ký
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Main header */}
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden text-white focus:outline-none"
-            onClick={toggleMenu}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              {/* Placeholder for logo - replace with your actual logo */}
-              <div className="h-10 w-36 bg-primary-400 flex items-center justify-center rounded-md">
-                <span className="font-bold text-lg">KINH ĐÔ CÁ CẢNH</span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Search bar - desktop */}
-          <div className="hidden md:flex flex-1 max-w-xl mx-6">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Tìm kiếm sản phẩm..."
-                className="w-full py-2 pl-4 pr-10 rounded-full text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-300"
-              />
-              <button className="absolute right-0 top-0 h-full px-3 text-neutral-500 hover:text-primary-600">
-                <Search size={20} />
-              </button>
+            <div className="flex items-center gap-2">
+              <Mail size={14} />
+              <span>kinhdocacanh@gmail.com</span>
             </div>
           </div>
 
-          {/* Navigation - desktop */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              href="/san-pham"
-              className="hover:text-primary-200 transition-colors font-medium"
-            >
-              Sản phẩm
-            </Link>
-            <Link
-              href="/thuy-sinh"
-              className="hover:text-primary-200 transition-colors font-medium"
-            >
-              Thủy sinh
-            </Link>
-            <Link
-              href="/phu-kien"
-              className="hover:text-primary-200 transition-colors font-medium"
-            >
-              Phụ kiện
-            </Link>
-            <Link
-              href="/tin-tuc"
-              className="hover:text-primary-200 transition-colors font-medium"
-            >
-              Tin tức
-            </Link>
-          </nav>
-
-          {/* User & Cart */}
-          <div className="flex items-center space-x-4">
-            <Link
-              href="/account"
-              className="hidden md:flex items-center hover:text-primary-200 transition-colors"
-            >
-              <User size={22} />
-            </Link>
-            <Link
-              href="/cart"
-              className="flex items-center hover:text-primary-200 transition-colors"
-            >
-              <div className="relative">
-                <ShoppingCart size={22} />
-                <span className="absolute -top-2 -right-2 bg-warning-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
-              </div>
-            </Link>
-          </div>
-        </div>
-
-        {/* Search bar - mobile */}
-        <div className="mt-3 md:hidden">
-          <div className="relative w-full">
-            <input
-              type="text"
-              placeholder="Tìm kiếm sản phẩm..."
-              className="w-full py-2 pl-4 pr-10 rounded-full text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-300"
-            />
-            <button className="absolute right-0 top-0 h-full px-3 text-neutral-500 hover:text-primary-600">
-              <Search size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      <div
-        className={`md:hidden bg-primary-700 ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
-      >
-        <nav className="container mx-auto px-4 py-3 flex flex-col space-y-3">
-          <Link
-            href="/san-pham"
-            className="hover:text-primary-200 transition-colors font-medium py-2 border-b border-primary-600"
-          >
-            Sản phẩm
-          </Link>
-          <Link
-            href="/thuy-sinh"
-            className="hover:text-primary-200 transition-colors font-medium py-2 border-b border-primary-600"
-          >
-            Thủy sinh
-          </Link>
-          <Link
-            href="/phu-kien"
-            className="hover:text-primary-200 transition-colors font-medium py-2 border-b border-primary-600"
-          >
-            Phụ kiện
-          </Link>
-          <Link
-            href="/tin-tuc"
-            className="hover:text-primary-200 transition-colors font-medium py-2 border-b border-primary-600"
-          >
-            Tin tức
-          </Link>
-          <div className="flex justify-between py-2">
+          {/* Login/Register Button */}
+          <div className="flex items-center gap-2">
+            {/* Login Button */}
             <Link
               href="/dang-nhap"
-              className="hover:text-primary-200 transition-colors"
+              className="px-2 rounded-md hover:bg-sky-400"
             >
               Đăng nhập
             </Link>
-            <Link
-              href="/dang-ky"
-              className="hover:text-primary-200 transition-colors"
-            >
+
+            <span>|</span>
+
+            {/* Register Button */}
+            <Link href="/dang-ky" className="px-2 rounded-md hover:bg-sky-400">
               Đăng ký
             </Link>
           </div>
-        </nav>
+        </div>
       </div>
 
-      {/* Categories nav bar */}
-      <div className="hidden md:block bg-primary-500">
-        <div className="container mx-auto px-4">
-          <nav className="flex space-x-8 py-2 text-sm">
-            <Link
-              href="/ca-canh"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Cá Cảnh
+      {/* Header */}
+      <div className="bg-sky-50 h-[52] flex items-center">
+        <div className="container grid grid-cols-2 lg:grid-cols-5">
+          <div className="col-span-3 flex items-center gap-10">
+            {/* Logo */}
+            <Link href="/">
+              {/* Screen >= 1240px */}
+              <div className="hidden lg:block">
+                <div className="relative w-[215] h-[43]">
+                  <Image
+                    src="/logos/kinhdocacanh-logo-full.png"
+                    alt="Logo Kinh Đô Cá Cảnh"
+                    fill
+                    priority
+                    objectFit="contain"
+                  />
+                </div>
+              </div>
+
+              {/* Screen < 1024px */}
+              <div className="block lg:hidden">
+                <div className="relative w-[43] h-[43]">
+                  <Image
+                    src="/logos/kinhdocacanh-logo-small.png"
+                    alt="Logo Kinh Đô Cá Cảnh"
+                    fill
+                    priority
+                    objectFit="contain"
+                  />
+                </div>
+              </div>
             </Link>
-            <Link
-              href="/ca-rong"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Cá Rồng
-            </Link>
-            <Link
-              href="/ca-koi"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Cá Koi
-            </Link>
-            <Link
-              href="/ca-dia-phung"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Cá Dĩa Phụng
-            </Link>
-            <Link
-              href="/be-ca"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Bể Cá
-            </Link>
-            <Link
-              href="/thuc-an"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Thức Ăn
-            </Link>
-            <Link
-              href="/thuoc-cho-ca"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Thuốc Cho Cá
-            </Link>
-            <Link
-              href="/may-bom-oxy"
-              className="hover:text-primary-200 transition-colors"
-            >
-              Máy Bơm & Oxy
-            </Link>
-          </nav>
+
+            {/* Desktop Navigation */}
+            <div className="flex items-center justify-between text">
+              <p>Danh mục sản phẩm</p>
+              <p>2</p>
+              <p>3</p>
+            </div>
+          </div>
+
+          {/* Header Button */}
+          <div className="flex items-center">
+            {/* Search Button */}
+
+            {/* Cart Button */}
+          </div>
         </div>
       </div>
     </header>
