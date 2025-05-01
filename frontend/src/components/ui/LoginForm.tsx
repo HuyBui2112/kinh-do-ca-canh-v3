@@ -20,7 +20,13 @@ const LoginForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Lấy các hàm và trạng thái từ UserContext
-  const { login, user, loading, error, isAuthenticated } = useUser();
+  const {
+    login,
+    user,
+    // loading,
+    error,
+    isAuthenticated,
+  } = useUser();
 
   // Router để điều hướng sau khi đăng nhập
   const router = useRouter();
@@ -116,9 +122,9 @@ const LoginForm: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-md p-6 bg-white rounded-l-lg shadow-md ">
+    <div className="w-full max-w-md p-6 bg-white rounded-l-lg shadow-md">
       <h1 className="text-lg font-medium text-center text-sky-950 mb-1">
-        Chào mừng đến với
+        Đăng nhập
       </h1>
       <h2 className="text-2xl font-bold text-center text-sky-500 mb-6">
         KINH ĐÔ CÁ CẢNH

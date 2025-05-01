@@ -1,6 +1,7 @@
 // Types for requests of Authentication APIs
 export interface RegisterRequest {
     email: string;
+    fullname?:string;
     password: string;
     phonenumber: string;
     address: string;
