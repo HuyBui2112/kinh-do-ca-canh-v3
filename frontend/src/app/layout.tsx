@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import LayoutRoot from "@/components/layout/LayoutRoot";
+import { UserProvider } from "@/contexts/UserContext";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -18,8 +19,10 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   title: "Kinh Đô Cá Cảnh | Cửa hàng cá cảnh uy tín hàng đầu",
-  description: "Kinh Đô Cá Cảnh - Chuyên cung cấp các loại cá cảnh, thủy sinh, phụ kiện và thức ăn cho cá với chất lượng cao và giá cả hợp lý. Giao hàng toàn quốc.",
-  keywords: "cá cảnh, thủy sinh, bể cá, phụ kiện cá cảnh, thức ăn cá cảnh, cá đẹp, cá ngoại nhập",
+  description:
+    "Kinh Đô Cá Cảnh - Chuyên cung cấp các loại cá cảnh, thủy sinh, phụ kiện và thức ăn cho cá với chất lượng cao và giá cả hợp lý. Giao hàng toàn quốc.",
+  keywords:
+    "cá cảnh, thủy sinh, bể cá, phụ kiện cá cảnh, thức ăn cá cảnh, cá đẹp, cá ngoại nhập",
 };
 
 export default function RootLayout({
@@ -28,9 +31,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${montserrat.variable} ${beVietnamPro.variable}`}>
+    <html
+      lang="vi"
+      className={`${montserrat.variable} ${beVietnamPro.variable}`}
+    >
       <body>
-        <LayoutRoot>{children}</LayoutRoot>
+        <UserProvider>
+          <LayoutRoot>{children}</LayoutRoot>
+        </UserProvider>
       </body>
     </html>
   );

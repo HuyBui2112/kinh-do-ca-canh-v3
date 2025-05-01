@@ -2,9 +2,24 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Phone, Mail, Search, ShoppingCart, Menu, X, User } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Settings,
+  Package,
+  Heart,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { useUser } from "@/contexts/UserContext";
 
 export interface NavigationType {
   id: number;
@@ -39,8 +54,37 @@ const Header = () => {
   // Hooks
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { user, logout, refreshUserState, isAuthenticated, loading } =
+    useUser();
+
+  // Làm mới trạng thái người dùng khi component được mount
+  useEffect(() => {
+    // Chỉ gọi refresh khi component được mount lần đầu
+    if (!isAuthenticated && !loading) {
+      refreshUserState();
+    }
+  }, [refreshUserState, isAuthenticated, loading]);
+
+  // Đóng dropdown menu khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Function to check if a navigation item is active
   const isNavActive = (navHref: string) => {
@@ -73,6 +117,21 @@ const Header = () => {
   // Toggle mobile menu
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+    // Đóng user menu nếu đang mở
+    if (userMenuOpen) setUserMenuOpen(false);
+  };
+
+  // Toggle user dropdown menu
+  const toggleUserMenu = () => {
+    setUserMenuOpen(!userMenuOpen);
+  };
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+    setMobileMenuOpen(false);
+    router.push("/");
   };
 
   // Render Navigation
@@ -188,6 +247,39 @@ const Header = () => {
                   </Link>
                 );
               })}
+
+              {/* Thêm các liên kết tài khoản nếu đã đăng nhập */}
+              {isAuthenticated && user && (
+                <div className="border-t border-t-blue-950/20 mt-2 pt-2">
+                  <div className="px-4 py-2 text-sm font-medium text-sky-800">
+                    Tài khoản của bạn
+                  </div>
+                  <Link
+                    href="/ca-nhan"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium hover:bg-sky-50 text-sky-950"
+                  >
+                    <User size={16} />
+                    <span>Thông tin cá nhân</span>
+                  </Link>
+                  <Link
+                    href="/don-hang"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium hover:bg-sky-50 text-sky-950"
+                  >
+                    <Package size={16} />
+                    <span>Đơn hàng của tôi</span>
+                  </Link>
+                  <Link
+                    href="/yeu-thich"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium hover:bg-sky-50 text-sky-950"
+                  >
+                    <Heart size={16} />
+                    <span>Sản phẩm yêu thích</span>
+                  </Link>
+                </div>
+              )}
             </nav>
           </div>
 
@@ -206,20 +298,37 @@ const Header = () => {
 
               {/* Authentication links */}
               <div className="flex items-center gap-3 pt-2">
-                <Link
-                  href="/dang-nhap"
-                  onClick={toggleMobileMenu}
-                  className="flex-1 py-2 px-3 bg-sky-600 text-white text-center rounded-md hover:bg-sky-700"
-                >
-                  Đăng nhập
-                </Link>
-                <Link
-                  href="/dang-ky"
-                  onClick={toggleMobileMenu}
-                  className="flex-1 py-2 px-3 border border-sky-600 text-sky-600 text-center rounded-md hover:bg-sky-50"
-                >
-                  Đăng ký
-                </Link>
+                {isAuthenticated && user ? (
+                  <>
+                    <div className="flex-1 text-sky-950 font-medium py-2">
+                      Xin chào, {user.fullname || "Quý khách"}
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex-1 py-2 px-3 border border-sky-600 text-sky-600 text-center rounded-md hover:bg-sky-50 flex items-center justify-center gap-1"
+                    >
+                      <LogOut size={16} />
+                      <span>Đăng xuất</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/dang-nhap"
+                      onClick={toggleMobileMenu}
+                      className="flex-1 py-2 px-3 bg-sky-600 text-white text-center rounded-md hover:bg-sky-700"
+                    >
+                      Đăng nhập
+                    </Link>
+                    <Link
+                      href="/dang-ky"
+                      onClick={toggleMobileMenu}
+                      className="flex-1 py-2 px-3 border border-sky-600 text-sky-600 text-center rounded-md hover:bg-sky-50"
+                    >
+                      Đăng ký
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -259,6 +368,79 @@ const Header = () => {
     );
   };
 
+  // Render user dropdown menu
+  const _renderUserDropdown = () => {
+    return (
+      <div className="relative" ref={userMenuRef}>
+        <button
+          onClick={toggleUserMenu}
+          className="flex items-center gap-2 px-2 rounded-md hover:bg-sky-400 focus:outline-none"
+          aria-expanded={userMenuOpen}
+        >
+          <User size={16} />
+          <span className="truncate">
+            Xin chào, &nbsp;
+            {user?.fullname || "Tài khoản"}
+          </span>
+          {userMenuOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+
+        {userMenuOpen && (
+          <div className="absolute right-0 top-8 mt-1 w-60 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+            {/* Thông tin người dùng */}
+            <div className="px-4 py-2 border-b border-gray-100">
+              <div className="font-medium text-sky-950 truncate">
+                {user?.fullname}
+              </div>
+              <div className="text-xs text-gray-500 truncate">
+                {user?.email}
+              </div>
+            </div>
+
+            {/* Các liên kết tài khoản */}
+            <Link
+              href="/ca-nhan"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50"
+              onClick={() => setUserMenuOpen(false)}
+            >
+              <User size={16} />
+              <span>Thông tin cá nhân</span>
+            </Link>
+
+            <Link
+              href="/don-hang"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50"
+              onClick={() => setUserMenuOpen(false)}
+            >
+              <Package size={16} />
+              <span>Đơn hàng của tôi</span>
+            </Link>
+
+            <Link
+              href="/cai-dat-tai-khoan"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50"
+              onClick={() => setUserMenuOpen(false)}
+            >
+              <Settings size={16} />
+              <span>Cài đặt tài khoản</span>
+            </Link>
+
+            <div className="border-t border-gray-100 my-1"></div>
+
+            {/* Đăng xuất */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left"
+            >
+              <LogOut size={16} />
+              <span>Đăng xuất</span>
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <header className="min-w-[320px] bg-white border-b border-sky-950/15 sticky top-0 z-40">
       {/* Top Bar - only visible on lg screens */}
@@ -279,20 +461,35 @@ const Header = () => {
 
           {/* Login/Register Button */}
           <div className="flex items-center gap-2">
-            {/* Login Button */}
-            <Link
-              href="/dang-nhap"
-              className="px-2 rounded-md hover:bg-sky-400"
-            >
-              Đăng nhập
-            </Link>
+            {loading ? (
+              // Hiển thị trạng thái đang tải
+              <div className="px-2 text-sky-100 opacity-75">Đang tải...</div>
+            ) : isAuthenticated && user ? (
+              <>
+                {/* User Dropdown Menu */}
+                {_renderUserDropdown()}
+              </>
+            ) : (
+              <>
+                {/* Login Button */}
+                <Link
+                  href="/dang-nhap"
+                  className="px-2 rounded-md hover:bg-sky-400"
+                >
+                  Đăng nhập
+                </Link>
 
-            <span>|</span>
+                <span>|</span>
 
-            {/* Register Button */}
-            <Link href="/dang-ky" className="px-2 rounded-md hover:bg-sky-400">
-              Đăng ký
-            </Link>
+                {/* Register Button */}
+                <Link
+                  href="/dang-ky"
+                  className="px-2 rounded-md hover:bg-sky-400"
+                >
+                  Đăng ký
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
