@@ -15,7 +15,6 @@ import {
   LogOut,
   Settings,
   Package,
-  Heart,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -271,12 +270,12 @@ const Header = () => {
                     <span>Đơn hàng của tôi</span>
                   </Link>
                   <Link
-                    href="/yeu-thich"
+                    href="/cai-dat"
                     onClick={toggleMobileMenu}
                     className="flex items-center gap-2 px-4 py-3 text-sm font-medium hover:bg-sky-50 text-sky-950"
                   >
-                    <Heart size={16} />
-                    <span>Sản phẩm yêu thích</span>
+                    <Settings size={16} />
+                    <span>Cài đặt tài khoản</span>
                   </Link>
                 </div>
               )}
@@ -417,7 +416,7 @@ const Header = () => {
             </Link>
 
             <Link
-              href="/cai-dat-tai-khoan"
+              href="/cai-dat"
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50"
               onClick={() => setUserMenuOpen(false)}
             >
