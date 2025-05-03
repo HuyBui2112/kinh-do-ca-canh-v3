@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './configs/database';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler';
 import userRoutes from './routes/userRoutes';
+import productRoutes from './routes/productRoutes';
 
 // Cấu hình dotenv để đọc file .env
 dotenv.config();
@@ -21,13 +22,12 @@ app.use(helmet()); // Bảo mật HTTP headers
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// Route mặc định
+// Route
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Welcome to Kinh Do Ca Canh API' });
 });
-
-// Thêm các route khác ở đây...
 app.use('/api/users', userRoutes); // Route người dùng
+app.use('/api/products', productRoutes); // Route sản phẩm
 
 // Error handling middleware
 app.use(notFoundHandler); // Xử lý route không tồn tại
