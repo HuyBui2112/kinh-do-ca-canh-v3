@@ -15,13 +15,14 @@ import {
   RegisterRequest,
   UpdateProfileRequest,
   ChangePasswordRequest,
+  UserName,
 } from "@/services/types";
 
 // Định nghĩa kiểu dữ liệu cho người dùng
 interface User {
   _id: string;
   email: string;
-  fullname: string;
+  fullname: UserName;
   phonenumber: string;
   address: string;
   token?: string;

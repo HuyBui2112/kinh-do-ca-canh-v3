@@ -46,13 +46,15 @@ export default function AccountPage() {
             </div>
             <div className="grid grid-cols-2 pt-4">
               <div className="text-start text-gray-600 font-medium">
-                <p className="pb-3">Tên khách hàng</p>
+                <p className="pb-3">Họ</p>
+                <p className="pb-3">Tên</p>
                 <p className="pb-3">Email</p>
                 <p className="pb-3">Số điện thoại</p>
                 <p>Địa chỉ</p>
               </div>
               <div className="text-end text-gray-600">
-                <p className="pb-3">{user.fullname}</p>
+                <p className="pb-3">{user.fullname.lastname}</p>
+                <p className="pb-3">{user.fullname.firstname}</p>
                 <p className="pb-3">{user.email}</p>
                 <p className="pb-3">{user.phonenumber}</p>
                 <p>{user.address}</p>

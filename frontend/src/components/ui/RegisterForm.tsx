@@ -5,13 +5,17 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, User, Phone, MapPin } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
+import { UserName } from "@/services/types";
 
 const RegisterForm: React.FC = () => {
   // State cho form
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [fullname, setFullname] = useState<string>("");
+  const [fullname, setFullname] = useState<UserName>({
+    lastname: "",
+    firstname: "",
+  });
   const [phonenumber, setPhonenumber] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -21,7 +25,8 @@ const RegisterForm: React.FC = () => {
     email?: string;
     password?: string;
     confirmPassword?: string;
-    fullname?: string;
+    lastname?: string;
+    firstname?: string;
     phonenumber?: string;
     address?: string;
     general?: string;
@@ -57,7 +62,8 @@ const RegisterForm: React.FC = () => {
       email?: string;
       password?: string;
       confirmPassword?: string;
-      fullname?: string;
+      lastname?: string;
+      firstname?: string;
       phonenumber?: string;
       address?: string;
     } = {};
@@ -69,9 +75,14 @@ const RegisterForm: React.FC = () => {
       errors.email = "Email không hợp lệ";
     }
 
-    // Xác thực fullname
-    if (!fullname) {
-      errors.fullname = "Vui lòng nhập họ tên";
+    // Xác thực lastname (họ)
+    if (!fullname.lastname) {
+      errors.lastname = "Vui lòng nhập họ";
+    }
+
+    // Xác thực firstname (tên)
+    if (!fullname.firstname) {
+      errors.firstname = "Vui lòng nhập tên";
     }
 
     // Xác thực số điện thoại
@@ -186,34 +197,73 @@ const RegisterForm: React.FC = () => {
           )}
         </div>
 
-        {/* Fullname input */}
-        <div>
-          <label
-            htmlFor="fullname"
-            className="block text-sm font-medium text-sky-950 mb-1"
-          >
-            Họ và tên <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <input
-              type="text"
-              id="fullname"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
-              className={`w-full pl-9 pr-3 py-2 border ${
-                formErrors.fullname ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500`}
-              placeholder="Nhập họ và tên của bạn"
-              disabled={isSubmitting}
-            />
-            <User
-              size={18}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            />
+        {/* Fullname input - Lastname và Firstname*/}
+        <div className="grid grid-cols-2 gap-5">
+          {/* Lastname input */}
+          <div>
+            <label
+              htmlFor="lastname"
+              className="block text-sm font-medium text-sky-950 mb-1"
+            >
+              Họ <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="lastname"
+                value={fullname.lastname}
+                onChange={(e) =>
+                  setFullname({ ...fullname, lastname: e.target.value })
+                }
+                className={`w-full pl-9 pr-3 py-2 border ${
+                  formErrors.lastname ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500`}
+                placeholder="Nhập họ của bạn"
+                disabled={isSubmitting}
+              />
+              <User
+                size={18}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
+            </div>
+            {formErrors.lastname && (
+              <p className="mt-1 text-sm text-red-500">{formErrors.lastname}</p>
+            )}
           </div>
-          {formErrors.fullname && (
-            <p className="mt-1 text-sm text-red-500">{formErrors.fullname}</p>
-          )}
+
+          {/* Firstname input */}
+          <div>
+            <label
+              htmlFor="firstname"
+              className="block text-sm font-medium text-sky-950 mb-1"
+            >
+              Tên <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="firstname"
+                value={fullname.firstname}
+                onChange={(e) =>
+                  setFullname({ ...fullname, firstname: e.target.value })
+                }
+                className={`w-full pl-9 pr-3 py-2 border ${
+                  formErrors.firstname ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500`}
+                placeholder="Nhập tên của bạn"
+                disabled={isSubmitting}
+              />
+              <User
+                size={18}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
+            </div>
+            {formErrors.firstname && (
+              <p className="mt-1 text-sm text-red-500">
+                {formErrors.firstname}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Phone number input */}

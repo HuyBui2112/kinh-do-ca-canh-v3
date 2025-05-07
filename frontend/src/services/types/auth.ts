@@ -1,7 +1,12 @@
 // Types for requests of Authentication APIs
+export interface UserName {
+  lastname: string;
+  firstname: string;
+}
+
 export interface RegisterRequest {
     email: string;
-    fullname?:string;
+    fullname?: UserName;
     password: string;
     phonenumber: string;
     address: string;
@@ -13,7 +18,7 @@ export interface LoginRequest {
 }
   
 export interface UpdateProfileRequest {
-    fullname?: string;
+    fullname?: UserName;
     phonenumber?: string;
     address?: string;
 }
@@ -27,7 +32,7 @@ export interface ChangePasswordRequest {
 export interface UserInfoResponse {
     _id: string,
     email: string,
-    fullname: string,
+    fullname: UserName,
     phonenumber: string,
     address: string,
 }
@@ -35,7 +40,7 @@ export interface UserInfoResponse {
 export interface AuthInfoResponse {
     _id: string,
     email: string,
-    fullname: string,
+    fullname: UserName,
     phonenumber: string,
     address: string,
     token: string
