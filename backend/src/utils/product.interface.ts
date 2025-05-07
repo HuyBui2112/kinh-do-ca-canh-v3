@@ -52,10 +52,6 @@ export interface ProductDetail {
         alt: string;
     }>;
     pd_category: string;
-    pd_specification: Array<{
-        key: string;
-        value: string;
-    }>;
     pd_seo: {
         title: string;
         description: string;

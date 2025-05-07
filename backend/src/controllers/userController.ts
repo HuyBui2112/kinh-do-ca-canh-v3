@@ -22,7 +22,7 @@ const formatUserResponse = (user: any): IUserResponse => {
   return {
     _id: user._id,
     email: user.email,
-    fullname: user.fullname || 'Người dùng',
+    fullname: user.fullname,
     phonenumber: user.phonenumber,
     address: user.address
   };
@@ -103,7 +103,7 @@ export const register = async (req: Request, res: Response) => {
     const newUser = await User.create({
       email,
       password: hashedPassword,
-      fullname: fullname || 'Người dùng',
+      fullname: fullname || { lastname: 'Người', firstname: 'dùng' },
       phonenumber,
       address
     });

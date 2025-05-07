@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { UserName } from '../models/userModel';
 
 // Interfaces cho đầu vào
 export interface ILoginInput {
@@ -9,13 +10,13 @@ export interface ILoginInput {
 export interface IRegisterInput {
   email: string;
   password: string;
-  fullname?: string;
+  fullname: UserName;
   phonenumber: string;
   address: string;
 }
 
 export interface IUpdateUserInput {
-  fullname?: string;
+  fullname?: UserName;
   phonenumber?: string;
   address?: string;
 }
@@ -29,7 +30,7 @@ export interface IChangePasswordInput {
 export interface IUserResponse {
   _id: Types.ObjectId | string;
   email: string;
-  fullname: string;
+  fullname: UserName;
   phonenumber: string;
   address: string;
 }

@@ -12,12 +12,6 @@ export interface Image {
     alt: string
 }
 
-// Định nghĩa interface cho Specification
-export interface Specification {
-    key: string,
-    value: string
-}
-
 // Định nghĩa interface cho SEO info
 export interface SEOInfo {
     title: string,
@@ -35,7 +29,6 @@ export interface IProduct extends Document {
     pd_price: Price,
     pd_image: Image[],
     pd_category: string,
-    pd_specification: Specification[],
     pd_seo: SEOInfo,
     pd_stock: number,
     pd_rating: number,
@@ -68,18 +61,6 @@ const ImageSchema = new Schema<Image>({
     alt: { 
         type: String, 
         default: '' 
-    }
-}, { _id: false });
-
-// Schema cho Specification
-const SpecificationSchema = new Schema<Specification>({
-    key: { 
-        type: String, 
-        required: [true, 'Tên thông số kỹ thuật là bắt buộc'] 
-    },
-    value: { 
-        type: String, 
-        required: [true, 'Giá trị thông số kỹ thuật là bắt buộc']
     }
 }, { _id: false });
 
@@ -134,9 +115,6 @@ const ProductSchema = new Schema<IProduct>(
             required: [true, 'Danh mục sản phẩm là bắt buộc'],
             index: true
         },
-        pd_specification: [{ 
-            type: SpecificationSchema 
-        }],
         pd_seo: { 
             type: SEOInfoSchema, 
             required: [true, 'Thông tin SEO là bắt buộc'] 
@@ -176,7 +154,7 @@ const ProductSchema = new Schema<IProduct>(
 ProductSchema.index({ pd_name: 'text', 'pd_seo.title': 'text', 'pd_seo.description': 'text' });
 
 // Virtual cho giá sau khi giảm giá
-ProductSchema.virtual('discountedPrice').get(function() {
+ProductSchema.virtual('discountedPrice').get(function(this: IProduct) {
     const discount = this.pd_price.discount || 0;
     const price = this.pd_price.price || 0;
     return price - (price * discount / 100);
